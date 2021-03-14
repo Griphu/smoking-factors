@@ -1,0 +1,24 @@
+1. Zmiana cech ilościowych na jakościowe - proponuję spróbować zamienić wszystko na jakościowe, będziemy spójni w podejściu i będzie to znacznie łatwiejsze w analizie.
+a) podział zmiennej wg Percentyli/CHAID/C&RT - doczytaj WoE (w grupach rozkład badanej zmiennej musi być istotnie różny + docelowo liniowy wpływ między percentylami i udziałem danej klasy)
+b) transformacja zmiennych jakościowych (połączenie zmiennych) - wykorzystajmy wiedzę ekspercką, zdrowy rozsądek i testy statystyczne (chi kwadrat, mutual information) - https://machinelearningmastery.com/feature-selection-with-real-and-categorical-data/
+c) korelacje między zmiennymi
+2. Analiza wartości skrajnych
+a) LOF
+b) iForest/EIF
+3. Modelowanie
+a) Lasso GLM
+b) Random Forest
+c) XGB
+d) SVM (różne jądra)
+4. Analiza modeli:
+a) DALEX - doczytaj, explainable models
+b) podstawowe wskaźniki ACC, F1, AUC, ROC etc
+c) Overfitting
+5. Istotność zmiennych:
+a) wykresy istotności
+b) wariancja istotności zmiennej (RF,XGB)
+c) Stymulanty i destymulanty
+6. Algorytmy grupujące:
+a) SOM
+b) k-means
+c) DBSCAN
