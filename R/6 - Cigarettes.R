@@ -26,6 +26,12 @@ names(extract)<-c("sex", "height", "weight", "waga", "class",
                   "restauracje","spotkanie","psycholog","alkohol","narkotyki",
                   "lamanie_prawa","powazne_choroby","zaufanie_lekarze","nie_uprawia_sportu","lata_nauki",
                   "stan_cywilny","niepelnosprawnosc",'praca')
+### 
+
+
+
+
+
 
 ### Do ³¹czenia zmiennych u¿yjmy testów statystycznych (Goodman, chi kwadrat, F, V Cramera, tau Kendall)
 

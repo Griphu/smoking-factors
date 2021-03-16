@@ -5,6 +5,7 @@ c) korelacje między zmiennymi
 2. Analiza wartości skrajnych
 a) LOF
 b) iForest/EIF
+i takie oczywiste skrajności, typu wiek 4 lata, w tym badaniu absolutnie nieistotne
 3. Modelowanie
 a) Lasso GLM
 b) Random Forest
