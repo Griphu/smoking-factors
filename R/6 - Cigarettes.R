@@ -26,10 +26,8 @@ names(extract)<-c("sex", "height", "weight", "waga", "class",
                   "restauracje","spotkanie","psycholog","alkohol","narkotyki",
                   "lamanie_prawa","powazne_choroby","zaufanie_lekarze","nie_uprawia_sportu","lata_nauki",
                   "stan_cywilny","niepelnosprawnosc",'praca')
-### 
 
-
-
+### Podzia³ zmiennej iloœciowej
 
 
 
@@ -37,112 +35,104 @@ names(extract)<-c("sex", "height", "weight", "waga", "class",
 
 
 #Dochody problemy
-extract$dochody_niestale_pom<-as.factor(extract$dochody_niestale)
-extract$dochody_niestale_<-revalue(extract$dochody_niestale_pom, c('1'= '1','2'= '1','3'= '0','4'= '0'))
+extract$unstable_income<-as.factor(extract$dochody_niestale)
+extract$unstable_income<-revalue(extract$unstable_income, c('1'= '_yes','2'= '_yes','3'= '_no','4'= '_no'))
 
-extract$praca_uciaz_pom<-as.factor(extract$praca_uciaz)
-extract$praca_uciaz_<-revalue(extract$praca_uciaz_pom, c('1'= '1','2'= '1','3'= '0','4'= '0'))
+extract$strenuous_work<-as.factor(extract$praca_uciaz)
+extract$strenuous_work<-revalue(extract$strenuous_work, c('1'= '_yes','2'= '_yes','3'= '_no','4'= '_no'))
 
-extract$praca_obowiaz_pom<-as.factor(extract$praca_obowiaz)
-extract$praca_obowiaz_<-revalue(extract$praca_obowiaz_pom, c('1'= '1','2'= '1','3'= '0','4'= '0'))
+extract$overloaded_at_work<-as.factor(extract$praca_obowiaz)
+extract$overloaded_at_work<-revalue(extract$overloaded_at_work, c('1'= '_yes','2'= '_yes','3'= '_no','4'= '_no'))
 
-extract$praca_niespraw_pom<-as.factor(extract$praca_niespraw)
-extract$praca_niespraw_<-revalue(extract$praca_niespraw_pom, c('1'= '1','2'= '1','3'= '0','4'= '0'))
+extract$unfair_work<-as.factor(extract$praca_niespraw)
+extract$unfair_work<-revalue(extract$unfair_work, c('1'= '_yes','2'= '_yes','3'= '_no','4'= '_no'))
 
-extract$dochody_zmartw_pom<-as.factor(extract$dochody_zmartw)
-extract$dochody_zmartw_<-revalue(extract$dochody_zmartw_pom, c('1'= '1','2'= '1','3'= '0'))
+extract$income_stressful<-as.factor(extract$dochody_zmartw)
+extract$income_stressful<-revalue(extract$income_stressful, c('1'= '_yes','2'= '_yes','3'= '_no'))
 
-extract$zdrowie_dolegliw_pom<-as.factor(extract$zdrowie_dolegliw)
-extract$zdrowie_dolegliw_<-revalue(extract$zdrowie_dolegliw_pom, c('1'= '1','2'= '1','3'= '0'))
+#extract$zdrowie_dolegliw_pom<-as.factor(extract$zdrowie_dolegliw)
+#extract$zdrowie_dolegliw_<-revalue(extract$zdrowie_dolegliw_pom, c('1'= '_yes','2'= '_yes','3'= '_no'))
 
-extract$zdrowie_utrudnia_pom<-as.factor(extract$zdrowie_utrudnia)
-extract$zdrowie_utrudnia_<-revalue(extract$zdrowie_utrudnia_pom, c('1'= '1','2'= '1','3'= '0'))
+#extract$zdrowie_utrudnia_pom<-as.factor(extract$zdrowie_utrudnia)
+#extract$zdrowie_utrudnia_<-revalue(extract$zdrowie_utrudnia_pom, c('1'= '_yes','2'= '_yes','3'= '_no'))
 
 ### BMI
 extract$BMI<-(extract$weight/(extract$height/100)^2)
-extract$niedowaga<-as.factor((extract$BMI<18.5)*1)
-extract$normalna_waga<-as.factor((extract$BMI>=18.5 & extract$BMI<25)*1)
-extract$nadwaga<-as.factor((extract$BMI>=25 & extract$BMI<30)*1)
-extract$otylosc<-as.factor((extract$BMI>=30)*1)
+extract$weight = as.factor(ifelse(extract$BMI<18.5,'_underweight',
+                      ifelse(extract$BMI<25,'_normal_weight',
+                      ifelse(extract$BMI<30,'_overweight',
+                      'obesity'))))
+#extract$niedowaga<-as.factor((extract$BMI<18.5)*1)
+#extract$normalna_waga<-as.factor((extract$BMI>=18.5 & extract$BMI<25)*1)
+#extract$nadwaga<-as.factor((extract$BMI>=25 & extract$BMI<30)*1)
+#extract$otylosc<-as.factor((extract$BMI>=30)*1)
+
 ### Income
 quantile(extract$dochod)
-extract$Dochod_0_25<-as.factor((extract$dochod<1100)*1)
-extract$Dochod_25_50<-as.factor((extract$dochod>=1100 & extract$dochod<1530)*1)
-extract$Dochod_50_75<-as.factor((extract$dochod>=1530 & extract$dochod<2200)*1)
-extract$Dochod_75_100<-as.factor((extract$dochod>=2200)*1)
+extract$income = as.factor(ifelse(extract$dochod<1100,'_1st_quantile',
+                      ifelse(extract$dochod<1530,'_2nd_quantile',
+                             ifelse(extract$dochod<2200,'_3rd_quantile',
+                                    '_4th_quantile'))))
+#extract$Dochod_0_25<-as.factor((extract$dochod<1100)*1)
+#extract$Dochod_25_50<-as.factor((extract$dochod>=1100 & extract$dochod<1530)*1)
+#extract$Dochod_50_75<-as.factor((extract$dochod>=1530 & extract$dochod<2200)*1)
+#extract$Dochod_75_100<-as.factor((extract$dochod>=2200)*1)
+
 ### Depression
 extract$Beck_SUM<-(extract$Beck_n+extract$Beck_o+extract$Beck_p+extract$Beck_q+extract$Beck_r+extract$Beck_t+extract$Beck_u)
-extract$Depression<-as.factor((extract$Beck_SUM>=9)*1)
+extract$depression<-as.factor((extract$Beck_SUM>=9)*1)
+extract$depression = revalue(extract$depression,c('0'='_no','1'='_yes'))
 ### Kosciol, Kino, Restauracje
-extract$Chodzi_Kosciol <- as.factor((extract$kosciol>0)*1)
-extract$Chodzi_Kino <- as.factor((extract$kino>0)*1)
-extract$Chodzi_Restauracje <- as.factor((extract$restauracje>0)*1)
-
+extract$goes_to_church <- as.factor((extract$kosciol>0)*1)
+extract$goes_to_church = revalue(extract$goes_to_church,c('0'='_no','1'='_yes'))
+extract$goes_to_cinema <- as.factor((extract$kino>0)*1)
+extract$goes_to_cinema = revalue(extract$goes_to_cinema,c('0'='_no','1'='_yes'))
+extract$goes_to_restaurant <- as.factor((extract$restauracje>0)*1)
+extract$goes_to_restaurant = revalue(extract$goes_to_restaurant,c('0'='_no','1'='_yes'))
 ##### nowe rzeczy
 extract$class = as.factor(extract$class)
 extract$class = revalue(extract$class, c('1'= ' city more than 500 thou.','2'=' city 200-500 thou.','3'=' city 100-200 thou.',
                                          '4'=' city 20-100 thou.','5'=' city less than 20 thou.','6'=' village'))
 
 ###### transformacje wiek ######
-extract$age0_40<-as.factor((extract$age<=40)*1)
-extract$age40_60<-as.factor((extract$age>40&extract$age<60)*1)
-extract$age60plus<-as.factor((extract$age>60)*1)
+extract$age = as.factor(ifelse(extract$age<40,'_below_40',
+                        ifelse(extract$age<=60,'_between_40_60',
+                               '_above_60')))
+
+### alkohol
+
+extract$too_much_alkohol = as.factor(ifelse(extract$alkohol==1,'_yes','_no'))
+extract$martial_status = as.factor(ifelse(extract$stan_cywilny==1,'_single',
+                     ifelse(extract$stan_cywilny==2,'_married',
+                            '_divorced/separated/widowed')))
+extract$doing_sports = as.factor(ifelse(extract$nie_uprawia_sportu==2,'_yes','_no'))
+extract$drugs = as.factor(ifelse(extract$narkotyki==1,'_yes','_no'))
+extract$law_breaking = as.factor(ifelse(extract$lamanie_prawa==1,'_yes','_no'))
+extract$job = as.factor(ifelse(extract$praca==1,'_yes','_no'))
+extract$smokes = as.factor(as.factor((extract$pali==1)*1))
+extract$hedonism = as.factor(ifelse(extract$hedonizm==1,'_yes','_no'))
+extract$sex = as.factor(ifelse(extract$sex==1,'male','female'))
 
 #### education
 extract$education = as.factor(extract$education)
 extract$education_level = revalue(extract$education, c('70'= '_Primary','60'= '_Primary',
                                                    '50'= '_middle','51'= '_middle','40'= '_middle','30'= '_middle','20'= '_middle',
                                                    '12'= '_Higher','11'= '_Higher','10'= '_Higher'))
-str(extract)
 #czy podzia na 1,2,3 czy na kaÅ¼dy przedzia osobno o 0/1?
+extract$friends = as.factor(ifelse(extract$przyjaciele<5,'_small',
+                             ifelse(extract$przyjaciele<10,'_medium',
+                                    '_many')))
 
-wybrane<-na.omit(extract[,c('pali','sex','przyjaciele',"bol_glowy",
-                            "bol_brzucha","bol_kark_ramion","bol_kaltka_serce","suchosc","pocenie",
-                            "dusznosc","bole_cialo","palpitacje","drgawki","pecherz",
-                            "zmeczenie","zaparcia","krew_nos","nadcisnienie",'alkohol',
-                            'stan_cywilny',"nie_uprawia_sportu", "niedowaga", "normalna_waga", "nadwaga", "otylosc",
-                            "Dochod_0_25","Dochod_25_50","Dochod_50_75","Dochod_75_100","Depression",
-                            "Chodzi_Kosciol","Chodzi_Kino","Chodzi_Restauracje","narkotyki",
-                            "lamanie_prawa","powazne_choroby","praca", "class","age0_40","age40_60","age60plus","education_level",
-                            "dochody_niestale_","praca_uciaz_","praca_obowiaz_","praca_niespraw_","dochody_zmartw_","zdrowie_dolegliw_","zdrowie_utrudnia_",
-                            "hedonizm")])
-{
-wybrane$class<-as.factor(wybrane$class)
-wybrane$education_level<-as.factor(wybrane$education_level)
-wybrane$dochody_niestale_<-as.factor(wybrane$dochody_niestale_)
-wybrane$praca_uciaz_<-as.factor(wybrane$praca_uciaz_)
-wybrane$praca_obowiaz_<-as.factor(wybrane$praca_obowiaz_)
-wybrane$praca_niespraw_<-as.factor(wybrane$praca_niespraw_)
-wybrane$dochody_zmartw_<-as.factor(wybrane$dochody_zmartw_)
-wybrane$zdrowie_dolegliw_<-as.factor(wybrane$zdrowie_dolegliw_)
-wybrane$zdrowie_utrudnia_<-as.factor(wybrane$zdrowie_utrudnia_)
-wybrane$hedonizm<-as.factor((extract$hedonizm==1)*1)
-wybrane$sex<-as.factor((extract$sex==1)*1)
-wybrane$pali<-as.factor((wybrane$pali==1)*1)
-wybrane$bol_glowy <- as.factor((wybrane$bol_glowy ==1)*1)
-wybrane$bol_brzucha <- as.factor((wybrane$bol_brzucha==1)*1)
-wybrane$bol_kark_ramion <- as.factor((wybrane$bol_kark_ramion ==1)*1)
-wybrane$bol_kaltka_serce <- as.factor((wybrane$bol_kaltka_serce ==1)*1)
-wybrane$suchosc <- as.factor((wybrane$suchosc ==1)*1)
-wybrane$pocenie <- as.factor((wybrane$pocenie ==1)*1)
-wybrane$dusznosc <- as.factor((wybrane$dusznosc ==1)*1)
-wybrane$bole_cialo <- as.factor((wybrane$bole_cialo ==1)*1)
-wybrane$palpitacje <- as.factor((wybrane$palpitacje ==1)*1)
-wybrane$drgawki <- as.factor((wybrane$drgawki ==1)*1)
-wybrane$pecherz <- as.factor((wybrane$pecherz ==1)*1)
-wybrane$zmeczenie <- as.factor((wybrane$zmeczenie ==1)*1)
-wybrane$zaparcia <- as.factor((wybrane$zaparcia ==1)*1)
-wybrane$krew_nos <- as.factor((wybrane$krew_nos ==1)*1)
-wybrane$nadcisnienie <- as.factor((wybrane$nadcisnienie ==1)*1)
-wybrane$alkohol <- as.factor((wybrane$alkohol ==1)*1)
-wybrane$stan_cywilny <- as.factor((wybrane$stan_cywilny ==1)*1)
-wybrane$nie_uprawia_sportu <- as.factor((wybrane$nie_uprawia_sportu ==1)*1)
-wybrane$narkotyki <- as.factor((wybrane$narkotyki ==1)*1)
-wybrane$lamanie_prawa <- as.factor((wybrane$lamanie_prawa ==1)*1)
-wybrane$powazne_choroby <- as.factor((wybrane$powazne_choroby ==1)*1)
-wybrane$praca <- as.factor((wybrane$praca ==1)*1)
-}
-#str(wybrane)
+wybrane<-na.omit(extract[,c('smokes','sex','friends',
+                            'too_much_alkohol',
+                            'martial_status',"doing_sports", "weight",
+                            "income",
+                            "goes_to_church","goes_to_cinema","goes_to_restaurant","drugs",
+                            "law_breaking",
+                            "job", "class","age","education_level",
+                            "unstable_income","strenuous_work","overloaded_at_work",
+                            "unfair_work","income_stressful",
+                            "hedonism")])
 
 
 #wybrane$ <- (wybrane$ ==1)*1
@@ -153,15 +143,21 @@ install.packages('e1071')
 library(caret)
 
 
-#Partition and create index matrix of selected values
-index <- createDataPartition(wybrane$pali, p=.8, list = FALSE, times = 1)
-
 # To address error message, convert df to data frame object
 df <- as.data.frame(wybrane)
 
+### URUCHOM SKRYPT wartosci_skrajne.R - ustaw odpowiednia sciezke 
+yourdir = "C:/Users/Tarasiuk/Desktop/smoking-factors/R/"
+source(paste0(yourdir,"wartosci_skrajne.R"))
+
+#Partition and create index matrix of selected values
+index <- createDataPartition(df_no_outliers$smokes, p=.8, list = FALSE, times = 1)
+getActiveDocumentContext()$path
+
+
 # Create test and training data frames
-train_df <- wybrane[index,]
-test_df <- wybrane[-index,]
+train_df <- df_no_outliers[index,]
+test_df <- df_no_outliers[-index,]
 
 # k-fold cross-validation (10-fold cross-validation) framework
 ctrlspecs <- trainControl(method="cv", number=10, savePredictions = "all")
@@ -169,7 +165,7 @@ ctrlspecs <- trainControl(method="cv", number=10, savePredictions = "all")
 ###### Specify & Train LASSO Regression Model
 lambda_vector <- 10^seq(5,-5, length=500)
 
-model1 <- train(pali~ .,
+model1 <- train(smokes~ .,
                 data = train_df,
                 preProcess= c("center", "scale"),
                 method="glmnet",
@@ -181,28 +177,22 @@ model1 <- train(pali~ .,
 ggplot(varImp(model1))
 
 
+for(i in 1:length(train_df)){
+  print(levels(train_df[,i]))
+}
+
 #?train
 #model1$bestTune
 install.packages("ROCR")
 library(ROCR)
 
-pred_train <- prediction(predict(model1,type="prob")[2],train_df$pali)
+pred_train <- prediction(predict(model1,type="prob")[2],train_df$smokes)
 
 auc_train <- performance(pred_train, measure = "auc")
 auc_train <- auc_train@y.values[[1]]
 
 
-pred_test <- prediction(predict(model1,newdata = test_df,type="prob")[2],test_df$pali)
+pred_test <- prediction(predict(model1,newdata = test_df,type="prob")[2],test_df$smokes)
 
 auc_test <- performance(pred_test, measure = "auc")
 auc_test <- auc_test@y.values[[1]]
-
-### dlaczego trzeba przeanalizowaæ korelacjê zmiennych - przyk³ad
-table(test_df$age60plus,test_df$pali)
-table(test_df$sex,test_df$pali)
-
-### ¿eby nie zaszumiaæ modelu, wyrzuæmy od razu zmienne nieistotne :
-table(test_df$bol_kark_ramion,test_df$pali)
-
-
-

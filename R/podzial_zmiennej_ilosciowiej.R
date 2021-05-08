@@ -23,3 +23,4 @@ drzewo$splits
 
 ### Który podzia³ jest najlepszy? 
 # mo¿emy wyliczyæ wskaŸniki, albo na oko, tych zmiennych nie ma tak du¿o z tego co widzia³em
+

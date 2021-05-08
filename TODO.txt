@@ -23,3 +23,13 @@ c) Stymulanty i destymulanty
 a) SOM
 b) k-means
 c) DBSCAN
+
+08.05.2021
+Dawid:
+ - ustal, jakie grupy powinny być traktowane jako referencyjne (np. zmienna pali tak/nie - którą pokażemy na wykresie istotności)
+ - zamiana modeli RF na wersje caret (auc powinno być w okolicy 0.71 na testowej)
+ - spróbuj modele, w których na start wyrzucimy najmniej istotne zmienne - może poprawić
+ - ewentualnie dołożyć jeszcze jakieś zmienne ze zbioru surowego
+Krystian:
+ - modele 'drzewiaste' w pythonie
+ - wykresy SHAP Value (wpływ zmiennych na predykcję - pozytywny/negatywny i jak bardzo)
